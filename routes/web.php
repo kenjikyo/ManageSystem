@@ -107,7 +107,7 @@ Route::group(['prefix' => 'system', 'middleware' => 'login'], function () {
         Route::post('edit-mail', 'System\AdminController@getEditMailByID')->name('system.admin.getEditMailByID');
         Route::get('disable-auth/{id}', 'System\AdminController@getDisableAuth')->name('system.admin.getDisableAuth');
         Route::get('edit-user/{id}', 'System\AdminController@getEditUser')->name('system.admin.getEditUser');
-
+        Route::post('edit-user', 'System\AdminController@postEditUser')->name('system.admin.postEditUser');
         //Wallet
         Route::get('wallet', 'System\AdminController@getWallet')->name('system.admin.getWallet');
         Route::get('interest', 'System\AdminController@getInterest')->name('system.admin.getInterest');
@@ -117,6 +117,8 @@ Route::group(['prefix' => 'system', 'middleware' => 'login'], function () {
         //Invest
         Route::get('investment', 'System\AdminController@getAdminInvestmentList')->name('system.admin.InvestmentList');
         Route::post('post-check-interest-list', 'System\AdminController@postCheckInterestList')->name('system.admin.postCheckInterestList');
+        Route::get('edit-investment{id}', 'System\AdminController@getEditInvestment')->name('system.admin.getEditInvestment');
+
         //statistical
         Route::get('statistical', 'System\AdminController@getStatistical')->name('system.admin.getStatistical');
 

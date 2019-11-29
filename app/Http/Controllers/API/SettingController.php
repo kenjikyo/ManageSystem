@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request; 
-use App\Http\Controllers\Controller; 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Support\Facades\Hash;
@@ -12,10 +12,10 @@ use DB;
 
 class SettingController extends Controller{
 
-	
-	public $keyHash	 = 'DAFCOCoorgsafwva'; 
-	
-    
+
+	public $keyHash	 = 'DAFCOCoorgsafwva';
+
+
     public function getSetting(){
 
 	    include(app_path() . '/functions/xxtea.php');
@@ -29,9 +29,9 @@ class SettingController extends Controller{
 		    'fee-SOX' => 0.002,
 	    );
 		return response(base64_encode(xxtea_encrypt(json_encode(array('status'=>true, 'data'=>$arrayReturn)),$this->keyHash)), 200);
-	    
+
     }
-    
+
     public function getSlide(){
 
 	    include(app_path() . '/functions/xxtea.php');
@@ -60,12 +60,12 @@ class SettingController extends Controller{
 				'img'=>'https://dafco.org/assets/images/envi/hst-5.jpg',
 				'link'=>null
 			)
-			
+
 		);
 		return response(base64_encode(xxtea_encrypt(json_encode(array('status'=>true, 'data'=>$slide)),$this->keyHash)), 200);
-	    
+
     }
-    
+
     public function getListCoin(){
 	    include(app_path() . '/functions/xxtea.php');
 	    // cập nhật giá token bên app
@@ -98,7 +98,7 @@ class SettingController extends Controller{
 	    }
 // 	    dd($coinArr);
 		return response(base64_encode(xxtea_encrypt(json_encode(array('status'=>true, 'data'=>$coinArr)),$this->keyHash)), 200);
-	    
+
     }
     public function getAPI($second = 0){
 	    $result = '';
@@ -136,6 +136,6 @@ class SettingController extends Controller{
 	    }
 	    return $result;
   	}
-  	
+
 
 }

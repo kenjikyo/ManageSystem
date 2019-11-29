@@ -1,5 +1,5 @@
 @extends('System.Layouts.Master')
-@section('title', 'Admin-Edit User')
+@section('title', 'Admin-Edit Investment')
 @section('css')
 <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 <link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet" />
@@ -19,10 +19,10 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-header-title">
-                    <h4 class="pull-left page-title">Edit User</h4>
+                    <h4 class="pull-left page-title">Edit Investment</h4>
                     <ol class="breadcrumb pull-right">
                         <li><a href="javascript:void(0);">DAPP</a></li>
-                        <li class="active" style="color:#fff">Edit User</li>
+                        <li class="active" style="color:#fff">Edit Investment</li>
                     </ol>
                     <div class="clearfix"></div>
                 </div>
@@ -37,7 +37,7 @@
                                 <div class="panel-heading">
                                     <div>
                                         <h3 class="panel-title txt-light"><i class="fa fa-table" aria-hidden="true"></i>
-                                            Edit User</h3>
+                                            Edit Investment</h3>
                                     </div>
                                 </div>
                                 <div class="panel-wrapper collapse in">
@@ -53,77 +53,31 @@
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10 text-left"><i
                                                                         class="fa fa-users" aria-hidden="true"></i>
-                                                                    Name</label>
-                                                                <input type="text" name="name" class="form-control"
-                                                                    value="{{ $user_list->User_Name }}">
+                                                                    User ID</label>
+                                                                <input type="text" name="investment_User"
+                                                                    class="form-control"
+                                                                    value="{{ $info_invest->investment_User }}">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10 text-left"><i
                                                                         class="fa fa-envelope" aria-hidden="true"></i>
-                                                                    Email</label>
-                                                                <input type="text" name="email" class="form-control"
-                                                                    value="{{ $user_list->User_Email }}">
+                                                                    Amount</label>
+                                                                <input type="text" name="investment_Amount"
+                                                                    class="form-control"
+                                                                    value="{{ number_format($info_invest->investment_Amount + 0, 2) }}">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10"
                                                                     for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                        aria-hidden="true"></i> Status Mail</label>
+                                                                        aria-hidden="true"></i> Package</label>
                                                                 <select id="inputState" class="form-control"
-                                                                    name="status_mail">
-                                                                    <option selected value="0"
-                                                                        {{$user_list->User_EmailActive == '0' ? 'selected' : ''}}>
-                                                                        Not Active</option>
-                                                                    <option selected value="1"
-                                                                        {{$user_list->User_EmailActive == '1' ? 'selected' : ''}}>
-                                                                        Active</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                    <label class="control-label mb-10"
-                                                                        for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                            aria-hidden="true"></i> Agency Level</label>
-                                                                    <select id="inputState" class="form-control"
-                                                                        name="agency_level">
-                                                                        @foreach ($user_agency_level as $item)
-                                                                            <option value="{{$item->user_agency_level_ID}}"
-                                                                            {{$user_list->User_Level == $item->user_agency_level_ID ? 'selected' : ''}}>
-                                                                            {{$item->user_agency_level_Name}}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10 text-left"><i
-                                                                        class="mdi mdi-timer" aria-hidden="true"></i>
-                                                                    Phone</label>
-                                                                <input type="text" name="phone" class="form-control"
-                                                                    value="{{ $user_list->User_Phone }}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10 text-left"><i
-                                                                        class="icon-diamond" aria-hidden="true"></i>
-                                                                    Parent</label>
-                                                                <input type="text" name="parent" class="form-control"
-                                                                    value="{{ $user_list->User_Parent }}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10 text-left"><i
-                                                                        class="icon-diamond" aria-hidden="true"></i>
-                                                                    Tree</label>
-                                                                <input name="tree" type="text" class="form-control"
-                                                                    value="{{ $user_list->User_Tree }}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10"
-                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                        aria-hidden="true"></i> Level</label>
-                                                                <select id="inputState" class="form-control"
-                                                                    name="level">
-                                                                    @foreach ($user_level as $item)
-                                                                        <option value="{{$item->User_Level_ID}}"
-                                                                        {{$user_list->User_Level == $item->User_Level_ID ? 'selected' : ''}}>
-                                                                        {{$item->User_Level_Name}}</option>
+                                                                    name="investment_Package">
+                                                                    @foreach ($package as $item)
+                                                                    <option selected value="{{$item->package_ID}}"
+                                                                        {{$info_invest->investment_Package == "$item->package_ID" ? 'selected' : ''}}>
+                                                                        {{number_format($item->package_Min)}}$ -
+                                                                        {{number_format($item->package_Max)}}$
+                                                                    </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -132,34 +86,77 @@
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10"
                                                                     for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                        aria-hidden="true"></i> Status</label>
+                                                                        aria-hidden="true"></i> Currency</label>
                                                                 <select id="inputState" class="form-control"
-                                                                    name="status">
-                                                                    <option value="0"
-                                                                        {{$user_list->User_Level == '0' ? 'selected' : ''}}>
-                                                                        Block</option>
-                                                                    <option value="1"
-                                                                        {{$user_list->User_Level == '1' ? 'selected' : ''}}>
-                                                                        Active</option>
+                                                                    name="investment_Currency">
+                                                                    @foreach ($currency as $item)
+                                                                    <option value="{{$item->Currency_ID}}"
+                                                                        {{$info_invest->investment_Currency == $item->Currency_ID ? 'selected' : ''}}>
+                                                                        {{$item->Currency_Name}}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10 text-left"><i
+                                                                        class="icon-diamond" aria-hidden="true"></i>
+                                                                    Rate</label>
+                                                                <input name="investment_Rate" type="text"
+                                                                    class="form-control"
+                                                                    value="{{ $info_invest->investment_Rate }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10"
+                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                        aria-hidden="true"></i> Package Time</label>
+                                                                <select id="inputState" class="form-control"
+                                                                    name="investment_Package_Time">
+                                                                    @foreach ($package_time as $item)
+                                                                    <option value="{{$item->time_Month}}"
+                                                                        {{$info_invest->investment_Package_Time == $item->time_Month ? 'selected' : ''}}>
+                                                                        {{$item->time_Month}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10"><i
                                                                         class="mdi mdi-emoticon-excited-outline"
                                                                         aria-hidden="true"></i>
-                                                                    New Password</label>
-                                                                <input name="new_password" type="text" class="form-control">
+                                                                    Time</label>
+                                                                <input name="investment_Time" type="datetime"
+                                                                    value="{{date('Y-m-d H:i:s', ($info_invest->investment_Time))}}"
+                                                                    class="form-control">
                                                             </div>
-
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10"
+                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                        aria-hidden="true"></i> Status</label>
+                                                                <select id="inputState" class="form-control"
+                                                                    name="investment_Status">
+                                                                    <option value="0"
+                                                                        {{$info_invest->investment_Status == 0 ? 'selected' : ''}}>
+                                                                        Waiting</option>
+                                                                    <option value="1"
+                                                                        {{$info_invest->investment_Status == 1 ? 'selected' : ''}}>
+                                                                        Active</option>
+                                                                        <option value="2"
+                                                                        {{$info_invest->investment_Status == 2 ? 'selected' : ''}}>
+                                                                        Refunded</option>
+                                                                        <option value="-1"
+                                                                        {{$info_invest->investment_Status == -1 ? 'selected' : ''}}>
+                                                                        Admin Cancel</option>
+                                                                </select>
+                                                            </div>
                                                             <div class="form-actions mt-10">
                                                                 <input type="hidden" name="id"
-                                                                    value="{{$user_list->User_ID}}">
+                                                                    value="{{$info_invest->investment_ID}}">
                                                                 <button type="submit"
                                                                     class="btn btn-success mr-10 btn-confirm"
                                                                     data-confirm="1"><i class="fa fa-save"
                                                                         aria-hidden="true"></i>
                                                                     Save</button>
-                                                                <a href="{{route('system.admin.getMemberListAdmin')}}"
+                                                                <a href="{{route('system.admin.InvestmentList')}}"
                                                                     type="button"
                                                                     class="btn btn-danger  mr-10 btn-confirm"
                                                                     data-confirm="-1"><i class="fa fa-angle-left"
