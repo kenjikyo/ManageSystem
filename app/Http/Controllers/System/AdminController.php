@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Excel;
 use App\Jobs\SendMailJobs;
+use Illuminate\Support\Facades\Hash;
 
 use Coinbase\Wallet\Client as Client_CB;
 use Coinbase\Wallet\Configuration;
@@ -126,7 +127,9 @@ class AdminController extends Controller
         ->whereRaw('1 ' . $where)
         ->orderBy('User_RegisteredDatetime', 'DESC');
         $user_list = $user_list->paginate(15);
-        return view('System.Admin.User', compact('user_list'));
+        $user_level = DB::table('user_level')->orderBy('User_Level_ID')->get();
+        $user_agency_level = DB::table('user_agency_level')->orderBy('user_agency_level_ID')->get();
+        return view('System.Admin.User', compact('user_list','user_level','user_agency_level'));
     }
 
     public function getDisableAuth($id){
@@ -770,7 +773,61 @@ if ($detail->Money_Confirm == 0) {
     }
 
     public function getEditUser($id){
-        $user_list = User::where('User_ID',$id)->join('user_level','User_Level_ID','User_Level')->get();
-        return view('System.Admin.EditUser', compact('user_list'));
+        $data['user_list'] = User::where('User_ID',$id)->join('user_level','User_Level_ID','User_Level')->first();
+        $data['user_level'] = DB::table('user_level')->orderBy('User_Level_ID')->get();
+        $data['user_agency_level'] = DB::table('user_agency_level')->orderBy('user_agency_level_ID')->get();
+        return view('System.Admin.EditUser', $data);
     }
+
+    public function postEditUser(Request $req){
+        $req->validate([
+            'name' => 'max:191',
+            'email' => 'required|email|max:191',
+            'status_mail' => 'required|between:0,1|integer',
+            'agency_level' => 'required|integer',
+            'phone' => 'max:20',
+            'parent' => 'required|integer|min:1',
+            'tree'  => 'required|min:1',
+            'level' => 'required|integer|between:0,5',
+            'status' => 'required|integer|between:0,1',
+        ]);
+        $user_info = User::where('User_ID',$req->id)->first();
+        if(!$user_info){
+            return redirect()->back()->with(['flash_level' => 'error', 'flash_message' => 'User ID is not exits!']);
+        }
+        $check_email = User::where('User_ID','<>',$req->id)->where('User_Email',$req->email)->first();
+        if($check_email){
+            return redirect()->back()->with(['flash_level' => 'error', 'flash_message' => 'Email is exits!']);
+        }
+        $check_parent = User::where('User_ID',$req->parent)->first();
+        if(!$check_parent){
+            return redirect()->back()->with(['flash_level' => 'error', 'flash_message' => 'Parent ID is not exits!']);
+        }
+        $check_agency_level = DB::table('user_agency_level')->where('user_agency_level_ID',$req->agency_level)->first();
+        if(!$check_agency_level){
+            return redirect()->back()->with(['flash_level' => 'error', 'flash_message' => 'Agency Level is not exits!']);
+        }
+        $check_level = DB::table('user_level')->where('User_Level_ID',$req->level)->first();
+        if(!$check_level){
+            return redirect()->back()->with(['flash_level' => 'error', 'flash_message' => 'Level is not exits!']);
+        }
+        $user_info->User_Name = $req->name;
+        $user_info->User_Email = $req->email;
+        $user_info->User_EmailActive = $req->status_mail;
+        $user_info->User_Phone = $req->phone;
+        $user_info->User_Parent = $req->parent;
+        $user_info->User_Tree = $req->tree;
+        $user_info->User_Level = $req->level;
+        $user_info->User_Agency_Level = $req->agency_level;
+        $user_info->User_Status = $req->status;
+        if($req->new_password){
+            $user_info->User_Password = Hash::make($req->new_password);
+        }
+        $user_info->save();
+        $cmt_log = "Edit User $req->id";
+        Log::insertLog(Session('user')->User_ID, "Edit User", 0, $cmt_log);
+        return redirect()->back()->with(['flash_level' => 'success', 'flash_message' => 'Edit User Success!']);
+    }
+
+
 }

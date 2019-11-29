@@ -13,17 +13,12 @@
 <link href="assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 <!--THIS PAGE LEVEL CSS-->
-<link
-    href="datetime/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+<link href="datetime/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
     rel="stylesheet" />
-<link href="datetime/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css"
-    rel="stylesheet" />
-<link href="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker3.min.css"
-    rel="stylesheet" />
-<link href="datetime/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css"
-    rel="stylesheet" />
-<link href="datetime/plugins/bootstrap-daterange/daterangepicker.css"
-    rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-daterange/daterangepicker.css" rel="stylesheet" />
 <link href="datetime/plugins/clockface/css/clockface.css" rel="stylesheet" />
 <link href="datetime/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
 <!--REQUIRED THEME CSS -->
@@ -41,10 +36,12 @@
     .dtp-btn-clear {
         color: black;
     }
-    .btn-filler{
+
+    .btn-filler {
         margin-bottom: 10px;
     }
-    .pagination{
+
+    .pagination {
         float: right;
     }
 </style>
@@ -242,8 +239,8 @@
                                     <div class="panel-body">
                                         <div class="table-wrap">
                                             <div class="table-responsive">
-                                                    {{$walletList->appends(request()->input())->links('System.Layouts.Pagination')}}
-                                                    <div style="clear:both"></div>
+                                                {{$walletList->appends(request()->input())->links('System.Layouts.Pagination')}}
+                                                <div style="clear:both"></div>
                                                 <table id="dttable-wallet"
                                                     class="table table-striped table-bordered table-responsive"
                                                     cellspacing="0" width="100%">
@@ -291,25 +288,24 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @php
+                                                            $arr=[
+                                                                ['bg'=>'','name'=>'User'],
+                                                                ['bg'=>'success','name'=>'Admin'],
+                                                                ['bg'=>'warning','name'=>'Finance'],
+                                                                ['bg'=>'info','name'=>'Support'],
+                                                                ['bg'=>'text-light bg-dark','name'=>'Customer'],
+                                                                ['bg'=>'text-light bg-primary','name'=>'Bot'],
+                                                            ];
+                                                        @endphp
                                                         @foreach($walletList as $item)
                                                         <tr>
-                                                            @if($item->User_Level == 0)
-                                                            <td>{{$item->Money_ID}}</td>
-                                                            <td>User</td>
-                                                            @elseif($item->User_Level == 1)
-                                                            <td class="bg-success">{{$item->Money_ID}}</td>
-                                                            <td>Admin</td>
-                                                            @elseif($item->User_Level == 2)
-                                                            <td class="bg-info">{{$item->Money_ID}}</td>
-                                                            <td>Finance</td>
-                                                            @else
-                                                            <td class="bg-warning">{{$item->Money_ID}}</td>
-                                                            <td>Customer</td>
-                                                            @endif
+                                                            <td class="{{$arr[$item->User_Level]['bg']}}">{{$item->Money_ID}}</td>
+                                                            <td>{{$arr[$item->User_Level]['name']}}</td>
                                                             <td>{{$item->Money_User}}</td>
-                                                            <td>{{number_format($item->Currency_Symbol != 'DBC' ? $item->Money_USDT : $item->Money_USDT*$item->Money_Rate,2)}}
+                                                            <td>{{number_format($item->Currency_Symbol != 'SOX' ? $item->Money_USDT : $item->Money_USDT*$item->Money_Rate,2)}}
                                                             </td>
-                                                            <td>{{$item->Currency_Symbol == 'DBC' ? $item->Money_USDT : $item->Money_CurrentAmount}}
+                                                            <td>{{$item->Currency_Symbol == 'SOX' ? $item->Money_USDT : $item->Money_CurrentAmount}}
                                                             </td>
                                                             <!--<td>{{number_format($item->Money_USDT*$item->Money_Rate, 2)}}</td>-->
                                                             <td>{{number_format($item->Money_USDTFee, 2)}}</td>
@@ -361,8 +357,7 @@
 
 <!-- THIS PAGE LEVEL JS -->
 <script src="datetime/plugins/momentjs/moment.js"></script>
-<script
-    src="datetime/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js">
+<script src="datetime/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js">
 </script>
 <script src="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker.min.js">
 </script>

@@ -1,5 +1,5 @@
 @extends('System.Layouts.Master')
-@section('title', 'Admin-Wallet')
+@section('title', 'Admin-Edit User')
 @section('css')
 <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 <link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet" />
@@ -19,10 +19,10 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-header-title">
-                    <h4 class="pull-left page-title">DETAIL WALLET</h4>
+                    <h4 class="pull-left page-title">Edit User</h4>
                     <ol class="breadcrumb pull-right">
                         <li><a href="javascript:void(0);">DAPP</a></li>
-                        <li class="active" style="color:#fff">DETAIL WALLET</li>
+                        <li class="active" style="color:#fff">Edit User</li>
                     </ol>
                     <div class="clearfix"></div>
                 </div>
@@ -37,7 +37,7 @@
                                 <div class="panel-heading">
                                     <div>
                                         <h3 class="panel-title txt-light"><i class="fa fa-table" aria-hidden="true"></i>
-                                            Detail Wallet</h3>
+                                            Edit User</h3>
                                     </div>
                                 </div>
                                 <div class="panel-wrapper collapse in">
@@ -45,127 +45,130 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="fa fa-user" aria-hidden="true"></i>
-                                                                ID</label>
-                                                            <input type="text" name="id" class="form-control"
-                                                                 value="{{ $user_list->User_ID }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="fa fa-users" aria-hidden="true"></i>
-                                                                Name</label>
-                                                            <input type="text" name="name" class="form-control"
-                                                                 value="{{ $user_list->User_Name }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="fa fa-envelope" aria-hidden="true"></i>
-                                                                Email</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->User_Email }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10"
-                                                                for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                    aria-hidden="true"></i> Status Mail</label>
-                                                            <select id="inputState" class="form-control"
-                                                                name="status_mail">
-                                                                <option selected value="0"
-                                                                    {{$user_list->User_EmailActive == '0' ? 'selected' : ''}}>
-                                                                    Not Active</option>
-                                                                <option selected value="1"
-                                                                    {{$user_list->User_EmailActive == '1' ? 'selected' : ''}}>
-                                                                    Active</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    {{-- <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="mdi mdi-timer" aria-hidden="true"></i>
-                                                                Time</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ date('Y/m/d H:i:s', $user_list->Money_Time) }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="icon-diamond" aria-hidden="true"></i>
-                                                                Amount</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->Money_USDT }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="icon-diamond" aria-hidden="true"></i>
-                                                                Currency</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->Currency_Name }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="icon-diamond" aria-hidden="true"></i>
-                                                                Amount Coin</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->Money_CurrentAmount }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left">- Fee</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->Money_USDTFee }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="mdi mdi-comment" aria-hidden="true"></i>
-                                                                Comment</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->Money_Comment }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10"><i
-                                                                    class="mdi mdi-emoticon-excited-outline"
-                                                                    aria-hidden="true"></i>
-                                                                Status</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ ($user_list->Money_MoneyAction == 2) ? ($user_list->Money_Confirm == 1 ? 'Success' : 'Processing') : (($user_list->Money_MoneyStatus==0) ? 'Cancel' : 'Success') }}">
-                                                        </div>
-                                                        @if($user_list->Money_MoneyAction == 2)
-                                                        <div class="form-group">
-                                                            <label class="control-label mb-10 text-left"><i
-                                                                    class="mdi mdi-pencil-outline"
-                                                                    aria-hidden="true"></i>
-                                                                Address</label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $user_list->Money_Address }}">
-                                                        </div>
-                                                        @endif
-                                                        <div class="seprator-block"></div>
-                                                        @if($user_list->Money_MoneyAction == 2 &&
-                                                        Session('user')->User_Level == 1 && $user_list->Money_Confirm ==
-                                                        0
-                                                        )
-                                                        <form method="GET" action="" id="confirm-wallet">
-                                                            <div class="form-actions mt-10">
-                                                                <input type="hidden" name="confirm" id="input-confirm"
-                                                                    value="">
-                                                                <button type="button"
-                                                                    class="btn btn-success mr-10 btn-confirm"
-                                                                    data-confirm="1"><i class="fa fa-check-square-o"
-                                                                        aria-hidden="true"></i>
-                                                                    Confirm</button>
-                                                                <button type="button"
-                                                                    class="btn btn-danger  mr-10 btn-confirm"
-                                                                    data-confirm="-1"><i class="fa fa-flus"
-                                                                        aria-hidden="true"></i>
-                                                                    Cancel</button>
+
+                                                    <form method="POST" action="{{route('system.admin.postEditUser')}}"
+                                                        id="confirm-wallet">
+                                                        @csrf
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10 text-left"><i
+                                                                        class="fa fa-users" aria-hidden="true"></i>
+                                                                    Name</label>
+                                                                <input type="text" name="name" class="form-control"
+                                                                    value="{{ $user_list->User_Name }}">
                                                             </div>
-                                                        </form>
-                                                        @endif
-                                                    </div> --}}
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10 text-left"><i
+                                                                        class="fa fa-envelope" aria-hidden="true"></i>
+                                                                    Email</label>
+                                                                <input type="text" name="email" class="form-control"
+                                                                    value="{{ $user_list->User_Email }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10"
+                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                        aria-hidden="true"></i> Status Mail</label>
+                                                                <select id="inputState" class="form-control"
+                                                                    name="status_mail">
+                                                                    <option selected value="0"
+                                                                        {{$user_list->User_EmailActive == '0' ? 'selected' : ''}}>
+                                                                        Not Active</option>
+                                                                    <option selected value="1"
+                                                                        {{$user_list->User_EmailActive == '1' ? 'selected' : ''}}>
+                                                                        Active</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                    <label class="control-label mb-10"
+                                                                        for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                            aria-hidden="true"></i> Agency Level</label>
+                                                                    <select id="inputState" class="form-control"
+                                                                        name="agency_level">
+                                                                        @foreach ($user_agency_level as $item)
+                                                                            <option value="{{$item->user_agency_level_ID}}"
+                                                                            {{$user_list->User_Level == $item->user_agency_level_ID ? 'selected' : ''}}>
+                                                                            {{$item->user_agency_level_Name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10 text-left"><i
+                                                                        class="mdi mdi-timer" aria-hidden="true"></i>
+                                                                    Phone</label>
+                                                                <input type="text" name="phone" class="form-control"
+                                                                    value="{{ $user_list->User_Phone }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10 text-left"><i
+                                                                        class="icon-diamond" aria-hidden="true"></i>
+                                                                    Parent</label>
+                                                                <input type="text" name="parent" class="form-control"
+                                                                    value="{{ $user_list->User_Parent }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10 text-left"><i
+                                                                        class="icon-diamond" aria-hidden="true"></i>
+                                                                    Tree</label>
+                                                                <input name="tree" type="text" class="form-control"
+                                                                    value="{{ $user_list->User_Tree }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10"
+                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                        aria-hidden="true"></i> Level</label>
+                                                                <select id="inputState" class="form-control"
+                                                                    name="level">
+                                                                    @foreach ($user_level as $item)
+                                                                        <option value="{{$item->User_Level_ID}}"
+                                                                        {{$user_list->User_Level == $item->User_Level_ID ? 'selected' : ''}}>
+                                                                        {{$item->User_Level_Name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10"
+                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                        aria-hidden="true"></i> Status</label>
+                                                                <select id="inputState" class="form-control"
+                                                                    name="status">
+                                                                    <option value="0"
+                                                                        {{$user_list->User_Level == '0' ? 'selected' : ''}}>
+                                                                        Block</option>
+                                                                    <option value="1"
+                                                                        {{$user_list->User_Level == '1' ? 'selected' : ''}}>
+                                                                        Active</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label mb-10"><i
+                                                                        class="mdi mdi-emoticon-excited-outline"
+                                                                        aria-hidden="true"></i>
+                                                                    New Password</label>
+                                                                <input name="new_password" type="text" class="form-control">
+                                                            </div>
+
+                                                            <div class="form-actions mt-10">
+                                                                <input type="hidden" name="id"
+                                                                    value="{{$user_list->User_ID}}">
+                                                                <button type="submit"
+                                                                    class="btn btn-success mr-10 btn-confirm"
+                                                                    data-confirm="1"><i class="fa fa-save"
+                                                                        aria-hidden="true"></i>
+                                                                    Save</button>
+                                                                <a href="{{route('system.admin.getMemberListAdmin')}}"
+                                                                    type="button"
+                                                                    class="btn btn-danger  mr-10 btn-confirm"
+                                                                    data-confirm="-1"><i class="fa fa-angle-left"
+                                                                        aria-hidden="true"></i>
+                                                                    Back</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

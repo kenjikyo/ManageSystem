@@ -164,42 +164,39 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label mb-10"
-                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                        aria-hidden="true"></i> Level</label>
-                                                                <select id="inputState" class="form-control"
-                                                                    name="level">
-                                                                    <option selected value=""
+                                                                    <label class="control-label mb-10"
+                                                                        for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                            aria-hidden="true"></i> Level</label>
+                                                                    <select id="inputState" class="form-control"
+                                                                        name="level">
+                                                                        <option selected value=""
                                                                         {{request()->input('level') == '' ? 'selected' : ''}}>
                                                                         --- Select ---</option>
-                                                                    <option value="0"
-                                                                        {{request()->input('level') == '0' ? 'selected' : ''}}>
-                                                                        User</option>
-                                                                    <option value="1"
-                                                                        {{request()->input('level') == '1' ? 'selected' : ''}}>
-                                                                        Admin</option>
-                                                                    <option value="2"
-                                                                        {{request()->input('level') == '2' ? 'selected' : ''}}>
-                                                                        Finance</option>
-                                                                    <option value="3"
-                                                                        {{request()->input('level') == '3' ? 'selected' : ''}}>
-                                                                        Test</option>
-                                                                    <option value="4"
-                                                                        {{request()->input('level') == '4' ? 'selected' : ''}}>
-                                                                        Customer</option>
-                                                                </select>
-                                                            </div>
+                                                                        @foreach ($user_level as $item)
+                                                                            <option value="{{$item->User_Level_ID}}"
+                                                                            {{request()->input('level') == "$item->User_Level_ID" ? 'selected' : ''}}>
+                                                                            {{$item->User_Level_Name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label mb-10"
-                                                                    for="exampleInputpwd_1"><i class="fa fa-users"
-                                                                        aria-hidden="true"></i> Agency Level</label>
-                                                                <input class="form-control" type="text"
-                                                                    placeholder="Agency Level"
-                                                                    value="{{request()->input('agency_level')}}"
-                                                                    name="agency_level">
-                                                            </div>
+                                                                    <label class="control-label mb-10"
+                                                                        for="exampleInputpwd_1"><i class="fa fa-users"
+                                                                            aria-hidden="true"></i> Agency Level</label>
+                                                                    <select id="inputState" class="form-control"
+                                                                        name="agency_level">
+                                                                        <option selected value=""
+                                                                        {{request()->input('agency_level') == '' ? 'selected' : ''}}>
+                                                                        --- Select ---</option>
+                                                                        @foreach ($user_agency_level as $item)
+                                                                            <option value="{{$item->user_agency_level_ID}}"
+                                                                            {{request()->input('agency_level') == "$item->user_agency_level_ID" ? 'selected' : ''}}>
+                                                                            {{$item->user_agency_level_Name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                         </div>
 
 
@@ -351,12 +348,8 @@
 
                                                                 <a href="{{ route('system.admin.getEditUser', $v->User_ID) }}"
                                                                     class="bt-loginID btn btn-warning btn-xs waves-effect waves-light"
-                                                                    data-toggle="tooltip" title="Login"><i
-                                                                        class="fa fa-edit"> Edit</i></a>
-                                                                <a href="{{ route('system.admin.getActiveMail', $v->User_ID) }}"
-                                                                    class="bt-loginID btn btn-danger btn-xs waves-effect waves-light"
-                                                                    data-toggle="tooltip"><i class="fa fa-trash">
-                                                                        Delete</i></a>
+                                                                    data-toggle="tooltip"><i class="fa fa-edit">
+                                                                        Edit</i></a>
                                                             </td>
                                                         </tr>
                                                         @endforeach

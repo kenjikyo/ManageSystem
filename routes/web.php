@@ -107,7 +107,7 @@ Route::group(['prefix' => 'system', 'middleware' => 'login'], function () {
         Route::post('edit-mail', 'System\AdminController@getEditMailByID')->name('system.admin.getEditMailByID');
         Route::get('disable-auth/{id}', 'System\AdminController@getDisableAuth')->name('system.admin.getDisableAuth');
         Route::get('edit-user/{id}', 'System\AdminController@getEditUser')->name('system.admin.getEditUser');
-
+        Route::post('edit-user', 'System\AdminController@postEditUser')->name('system.admin.postEditUser');
         //Wallet
         Route::get('wallet', 'System\AdminController@getWallet')->name('system.admin.getWallet');
         Route::get('interest', 'System\AdminController@getInterest')->name('system.admin.getInterest');
