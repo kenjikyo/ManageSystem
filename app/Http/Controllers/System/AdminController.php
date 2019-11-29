@@ -229,7 +229,7 @@ class AdminController extends Controller
             $searchUserID = User::where('User_Email', $request->email)->value('User_ID');
             $investmentList = $investmentList->where('investment_User', $searchUserID);
         }
-        if ($request->status) {
+        if ($request->status != "") {
             $investmentList = $investmentList->where('investment_Status', $request->status);
         }
         if ($request->datefrom and $request->dateto) {
@@ -829,5 +829,16 @@ if ($detail->Money_Confirm == 0) {
         return redirect()->back()->with(['flash_level' => 'success', 'flash_message' => 'Edit User Success!']);
     }
 
-
+    public function getEditInvestment($id){
+        $data['info_invest'] = Investment::where('investment_ID',$id)
+        // ->join('currency', 'investment_Currency', 'currency.Currency_ID')
+        // ->join('package', 'package_ID', 'investment_Package')
+        // ->join('package_time', 'time_Month', 'investment_Package_Time')
+        // ->join('users', 'investment_User', 'User_ID')
+        ->first();
+        $data['currency'] = DB::table('currency')->get();
+        $data['package'] = DB::table('package')->get();
+        $data['package_time'] = DB::table('package_time')->get();
+        return view('System.Admin.EditInvestment', $data);
+    }
 }

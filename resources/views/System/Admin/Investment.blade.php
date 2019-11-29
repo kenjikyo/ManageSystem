@@ -14,17 +14,12 @@
 
 
 <!--THIS PAGE LEVEL CSS-->
-<link
-    href="datetime/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+<link href="datetime/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
     rel="stylesheet" />
-<link href="datetime/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css"
-    rel="stylesheet" />
-<link href="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker3.min.css"
-    rel="stylesheet" />
-<link href="datetime/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css"
-    rel="stylesheet" />
-<link href="datetime/plugins/bootstrap-daterange/daterangepicker.css"
-    rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-daterange/daterangepicker.css" rel="stylesheet" />
 <link href="datetime/plugins/clockface/css/clockface.css" rel="stylesheet" />
 <link href="datetime/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
 <!--REQUIRED THEME CSS -->
@@ -42,10 +37,12 @@
     .dtp-btn-clear {
         color: black;
     }
-    .btn-filler{
+
+    .btn-filler {
         margin-bottom: 10px;
     }
-    .pagination{
+
+    .pagination {
         float: right;
     }
 </style>
@@ -103,12 +100,18 @@
                                                                         name="status">
                                                                         <option value="" selected>--- Select ---
                                                                         </option>
+                                                                        <option value="0"
+                                                                            {{request()->input('status') == 0 ? 'selected' : ''}}>
+                                                                            Waiting</option>
                                                                         <option value="1"
                                                                             {{request()->input('status') == 1 ? 'selected' : ''}}>
                                                                             Active</option>
                                                                         <option value="2"
                                                                             {{request()->input('status') == 2 ? 'selected' : ''}}>
                                                                             Cancel</option>
+                                                                        <option value="-1"
+                                                                            {{request()->input('status') == -1 ? 'selected' : ''}}>
+                                                                            Admin Cancel</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -203,6 +206,7 @@
                                                             <th>Interest/Month(%)</th>
                                                             <th>Time</th>
                                                             <th>Status</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
 
@@ -233,6 +237,12 @@
                                                             @else
                                                             <td><span class="badge badge-danger">Cancel</span></td>
                                                             @endif
+                                                            <td>
+                                                                <a href="{{ route('system.admin.getEditInvestment', $item->investment_ID) }}"
+                                                                    class="bt-loginID btn btn-warning btn-xs waves-effect waves-light"
+                                                                    data-toggle="tooltip"><i class="fa fa-edit">
+                                                                        Edit</i></a>
+                                                            </td>
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
@@ -255,8 +265,7 @@
 
 <!-- THIS PAGE LEVEL JS -->
 <script src="datetime/plugins/momentjs/moment.js"></script>
-<script
-    src="datetime/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js">
+<script src="datetime/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js">
 </script>
 <script src="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker.min.js">
 </script>

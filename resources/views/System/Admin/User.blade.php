@@ -345,7 +345,6 @@
                                                                 @endif
                                                             </td>
                                                             <td>
-
                                                                 <a href="{{ route('system.admin.getEditUser', $v->User_ID) }}"
                                                                     class="bt-loginID btn btn-warning btn-xs waves-effect waves-light"
                                                                     data-toggle="tooltip"><i class="fa fa-edit">
