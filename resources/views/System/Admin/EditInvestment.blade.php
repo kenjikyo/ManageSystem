@@ -1,17 +1,35 @@
 @extends('System.Layouts.Master')
 @section('title', 'Admin-Edit Investment')
 @section('css')
-<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet" />
 
-<!-- DataTables -->
-<link href="assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
+<!--THIS PAGE LEVEL CSS-->
+<link href="datetime/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+    rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/bootstrap-daterange/daterangepicker.css" rel="stylesheet" />
+<link href="datetime/plugins/clockface/css/clockface.css" rel="stylesheet" />
+<link href="datetime/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+<!--REQUIRED THEME CSS -->
+<link href="datetime/assets/css/style.css" rel="stylesheet">
+<link href="datetime/assets/css/themes/main_theme.css" rel="stylesheet" />
+<style>
+    .dtp-btn-cancel {
+        background: #9E9E9E;
+    }
+
+    .dtp-btn-ok {
+        background: #009688;
+    }
+
+    .dtp-btn-clear {
+        color: black;
+    }
+
+
+</style>
 @endsection
 @section('content')
 <div class="content">
@@ -46,7 +64,7 @@
                                             <div class="card-body">
                                                 <div class="row">
 
-                                                    <form method="POST" action="{{route('system.admin.postEditUser')}}"
+                                                    <form method="POST" action="{{route('system.admin.postEditInvestment')}}"
                                                         id="confirm-wallet">
                                                         @csrf
                                                         <div class="col-md-4">
@@ -62,9 +80,9 @@
                                                                 <label class="control-label mb-10 text-left"><i
                                                                         class="fa fa-envelope" aria-hidden="true"></i>
                                                                     Amount</label>
-                                                                <input type="text" name="investment_Amount"
+                                                                <input type="number" step=any name="investment_Amount"
                                                                     class="form-control"
-                                                                    value="{{ number_format($info_invest->investment_Amount + 0, 2) }}">
+                                                                    value="{{ $info_invest->investment_Amount }}">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10"
@@ -73,10 +91,10 @@
                                                                 <select id="inputState" class="form-control"
                                                                     name="investment_Package">
                                                                     @foreach ($package as $item)
-                                                                    <option selected value="{{$item->package_ID}}"
+                                                                    <option value="{{$item->package_ID}}"
                                                                         {{$info_invest->investment_Package == "$item->package_ID" ? 'selected' : ''}}>
                                                                         {{number_format($item->package_Min)}}$ -
-                                                                        {{number_format($item->package_Max)}}$
+                                                                        {{number_format($item->package_Max)}}$ ({{$item->package_Interest*100}}%/Month)
                                                                     </option>
                                                                     @endforeach
                                                                 </select>
@@ -100,7 +118,7 @@
                                                                 <label class="control-label mb-10 text-left"><i
                                                                         class="icon-diamond" aria-hidden="true"></i>
                                                                     Rate</label>
-                                                                <input name="investment_Rate" type="text"
+                                                                <input name="investment_Rate" type="number" step=any
                                                                     class="form-control"
                                                                     value="{{ $info_invest->investment_Rate }}">
                                                             </div>
@@ -113,7 +131,7 @@
                                                                     @foreach ($package_time as $item)
                                                                     <option value="{{$item->time_Month}}"
                                                                         {{$info_invest->investment_Package_Time == $item->time_Month ? 'selected' : ''}}>
-                                                                        {{$item->time_Month}}</option>
+                                                                        {{$item->time_Month}} ( FEE: {{$item->time_Fee*100}}% ) </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -124,7 +142,7 @@
                                                                         class="mdi mdi-emoticon-excited-outline"
                                                                         aria-hidden="true"></i>
                                                                     Time</label>
-                                                                <input name="investment_Time" type="datetime"
+                                                                <input id="datetimeedit" name="investment_Time" type="datetime"
                                                                     value="{{date('Y-m-d H:i:s', ($info_invest->investment_Time))}}"
                                                                     class="form-control">
                                                             </div>
@@ -149,7 +167,7 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-actions mt-10">
-                                                                <input type="hidden" name="id"
+                                                                <input type="hidden" name="investment_ID"
                                                                     value="{{$info_invest->investment_ID}}">
                                                                 <button type="submit"
                                                                     class="btn btn-success mr-10 btn-confirm"
@@ -182,26 +200,24 @@
 @endsection
 
 @section('script')
-<!-- Datatables-->
-<script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
-<script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
-<script src="assets/plugins/datatables/buttons.bootstrap.min.js"></script>
-<script src="assets/plugins/datatables/jszip.min.js"></script>
-<script src="assets/plugins/datatables/pdfmake.min.js"></script>
-<script src="assets/plugins/datatables/vfs_fonts.js"></script>
-<script src="assets/plugins/datatables/buttons.html5.min.js"></script>
-<script src="assets/plugins/datatables/buttons.print.min.js"></script>
-<script src="assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
-<script src="assets/plugins/datatables/dataTables.keyTable.min.js"></script>
-<script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
-<script src="assets/plugins/datatables/responsive.bootstrap.min.js"></script>
-<script src="assets/plugins/datatables/dataTables.scroller.min.js"></script>
 
-<!-- Datatable init js -->
-<script src="assets/pages/datatables.init.js"></script>
+<!-- THIS PAGE LEVEL JS -->
+<script src="datetime/plugins/momentjs/moment.js"></script>
+<script src="datetime/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js">
+</script>
+<script src="datetime/plugins/boootstrap-datepicker/bootstrap-datepicker.min.js">
+</script>
+<script src="datetime/plugins/bootstrap-datetime-picker/js/bootstrap-datetimepicker.js">
+</script>
+<script src="datetime/plugins/bootstrap-timepicker/js/bootstrap-timepicker.js">
+</script>
+<script src="datetime/plugins/bootstrap-daterange/daterangepicker.js"></script>
+<script src="datetime/plugins/clockface/js/clockface.js"></script>
+<script src="datetime/plugins/clockpicker/clockpicker.js"></script>
+
+<script src="datetime/assets/js/pages/forms/date-time-picker-custom.js"></script>
 <script>
-    var today = new Date();
-    var currentDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    $('#datetimeedit').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm:ss', time: true, clearButton: true });
+
 </script>
 @endsection
