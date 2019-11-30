@@ -83,10 +83,11 @@
                                                                         aria-hidden="true"></i> Content</label>
                                                                 <input class="form-control" type="text"
                                                                     placeholder="Content"
-                                                                    value="{{request()->input('Content')}}" name="Content">
+                                                                    value="{{request()->input('Content')}}"
+                                                                    name="Content">
                                                             </div>
                                                         </div>
-                                                        {{-- 
+                                                        {{--
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10"
@@ -164,7 +165,11 @@
                                                     <td>{{$item->Log_ID}}</td>
                                                     <td>{{$item->Log_User}}</td>
                                                     <td>{{$item->User_Email}}</td>
-                                                    <td>{{$item->Log_Comment}}</td>
+                                                    <td>
+                                                        <div style="overflow:auto;!important;height:110px">
+                                                            {!!$item->Log_Comment!!}
+                                                        </div>
+                                                    </td>
                                                     <td>{{$item->Log_CreatedAt}}</td>
                                                 </tr>
                                                 @endforeach

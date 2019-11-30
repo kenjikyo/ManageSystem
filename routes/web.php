@@ -117,7 +117,10 @@ Route::group(['prefix' => 'system', 'middleware' => 'login'], function () {
         //Invest
         Route::get('investment', 'System\AdminController@getAdminInvestmentList')->name('system.admin.InvestmentList');
         Route::post('post-check-interest-list', 'System\AdminController@postCheckInterestList')->name('system.admin.postCheckInterestList');
-        Route::get('edit-investment{id}', 'System\AdminController@getEditInvestment')->name('system.admin.getEditInvestment');
+        Route::get('edit-investment/{id}', 'System\AdminController@getEditInvestment')->name('system.admin.getEditInvestment');
+        Route::post('post-investment', 'System\AdminController@postEditInvestment')->name('system.admin.postEditInvestment');
+
+
 
         //statistical
         Route::get('statistical', 'System\AdminController@getStatistical')->name('system.admin.getStatistical');

@@ -108,7 +108,7 @@
                                                                             Active</option>
                                                                         <option value="2"
                                                                             {{request()->input('status') == 2 ? 'selected' : ''}}>
-                                                                            Cancel</option>
+                                                                            Refunded</option>
                                                                         <option value="-1"
                                                                             {{request()->input('status') == -1 ? 'selected' : ''}}>
                                                                             Admin Cancel</option>
