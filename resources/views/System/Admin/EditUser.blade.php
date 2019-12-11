@@ -86,7 +86,7 @@
                                                                         name="agency_level">
                                                                         @foreach ($user_agency_level as $item)
                                                                             <option value="{{$item->user_agency_level_ID}}"
-                                                                            {{$user_list->User_Level == $item->user_agency_level_ID ? 'selected' : ''}}>
+                                                                            {{$user_list->User_Agency_Level == $item->user_agency_level_ID ? 'selected' : ''}}>
                                                                             {{$item->user_agency_level_Name}}</option>
                                                                         @endforeach
                                                                     </select>
