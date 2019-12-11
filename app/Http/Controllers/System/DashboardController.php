@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\System;
-
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Money;
@@ -14,6 +14,7 @@ class DashboardController extends Controller
 
     public function getDashboard()
     {
+        // dd(bcrypt('phuong123456'));
         $RandomToken = Money::RandomToken();
         $user = Session('user');
         $balance = Money::getBalance(Session('user')->User_ID);

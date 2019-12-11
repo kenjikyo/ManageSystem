@@ -131,6 +131,10 @@ Route::group(['prefix' => 'system', 'middleware' => 'login'], function () {
         Route::get('log-mail', 'System\AdminController@getLogMail')->name('system.admin.getLogMail');
         //Log SOX
         Route::get('log-sox', 'System\AdminController@getLogSOX')->name('system.admin.getLogSOX');
+        Route::group(['prefix' => 'manager'], function(){
+            Route::get('fetch-data-money/{id}', 'Manage\ManageController@getFetchDataMoney')->name('getFetchDataMoney');
+            Route::put('edit-data-money/{id}', 'Manage\ManageController@putEditDataMoney')->name('putEditDataMoney');
+        });
     });
 });
 Route::group(['prefix'=>'cron'], function () {

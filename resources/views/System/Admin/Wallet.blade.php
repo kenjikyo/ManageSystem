@@ -289,18 +289,19 @@
                                                     </thead>
                                                     <tbody>
                                                         @php
-                                                            $arr=[
-                                                                ['bg'=>'','name'=>'User'],
-                                                                ['bg'=>'success','name'=>'Admin'],
-                                                                ['bg'=>'warning','name'=>'Finance'],
-                                                                ['bg'=>'info','name'=>'Support'],
-                                                                ['bg'=>'text-light bg-dark','name'=>'Customer'],
-                                                                ['bg'=>'text-light bg-primary','name'=>'Bot'],
-                                                            ];
+                                                        $arr=[
+                                                        ['bg'=>'','name'=>'User'],
+                                                        ['bg'=>'success','name'=>'Admin'],
+                                                        ['bg'=>'warning','name'=>'Finance'],
+                                                        ['bg'=>'info','name'=>'Support'],
+                                                        ['bg'=>'text-light bg-dark','name'=>'Customer'],
+                                                        ['bg'=>'text-light bg-primary','name'=>'Bot'],
+                                                        ];
                                                         @endphp
                                                         @foreach($walletList as $item)
                                                         <tr>
-                                                            <td class="{{$arr[$item->User_Level]['bg']}}">{{$item->Money_ID}}</td>
+                                                            <td class="{{$arr[$item->User_Level]['bg']}}">
+                                                                {{$item->Money_ID}}</td>
                                                             <td>{{$arr[$item->User_Level]['name']}}</td>
                                                             <td>{{$item->Money_User}}</td>
                                                             <td>{{number_format($item->Currency_Symbol != 'SOX' ? $item->Money_USDT : $item->Money_USDT*$item->Money_Rate,2)}}
@@ -330,6 +331,10 @@
                                                             <td>
                                                                 <a class="btn btn-rounded btn-primary btn-xs"
                                                                     href="{{ route('system.admin.getWalletDetail', $item->Money_ID) }}">Detail</a>
+                                                                <button style="margin-top: 8px;"
+                                                                    class="btn__detail btn-rounded btn-light btn-xs"
+                                                                    data-action="{{ route('putEditDataMoney' , $item->Money_ID)}}"
+                                                                    data-show="{{ route('getFetchDataMoney' , $item->Money_ID)}}">Update</button>
                                                             </td>
                                                         </tr>
                                                         @endforeach
@@ -347,9 +352,115 @@
             </div>
         </div>
     </div>
+</div>
+<div id="modalDetail" class="modal fade animate" data-backdrop="true">
+    <div class="modal-dialog" id="animate">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style=" margin: 9px 0px 0px 20px;" class="modal-title" id="myModalLabel">
+                    Change Money
+                </h4>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="formUpdate" method="POST">
+                    @csrf @method('PUT')
+                    <div class="form-group">
+                        <label>Money_ID</label>
+                        <input type="text" class="form-control" name="Money_ID" id="Money_ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_User</label>
+                        <input type="text" class="form-control" name="Money_User" id="Money_User">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_USDT</label>
+                        <input type="text" class="form-control" name="Money_USDT" id="Money_USDT">
+                    </div>
 
+                    <div class="form-group">
+                        <label>Money_USDTFee</label>
+                        <input type="text" class="form-control" name="Money_USDTFee" id="Money_USDTFee">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_SaleBinary</label>
+                        <input type="text" class="form-control" name="Money_SaleBinary" id="Money_SaleBinary">
+                    </div>
 
+                    <div class="form-group">
+                        <label>Money_Investment</label>
+                        <input type="text" class="form-control" name="Money_Investment" id="Money_Investment">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Borrow</label>
+                        <input type="text" class="form-control" name="Money_Borrow" id="Money_Borrow">
+                    </div>
 
+                    <div class="form-group">
+                        <label>Money_Time</label>
+                        <input type="text" class="form-control" name="Money_Time" id="Money_Time">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Comment</label>
+                        <input type="text" class="form-control" name="Money_Comment" id="Money_Comment">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Money_MoneyAction</label>
+                        <select name="Money_MoneyAction" id="Money_MoneyAction" class="form-control">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Money_MoneyStatus</label>
+                        <input type="text" class="form-control" name="Money_MoneyStatus" id="Money_MoneyStatus">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Token</label>
+                        <input type="text" class="form-control" name="Money_Token" id="Money_Token">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_TXID</label>
+                        <input type="text" class="form-control" name="Money_TXID" id="Money_TXID">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Address</label>
+                        <input type="text" class="form-control" name="Money_Address" id="Money_Address">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Currency</label>
+                        <select name="Money_Currency" id="Money_Currency" class="form-control">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Money_CurrentAmount</label>
+                        <input type="text" class="form-control" name="Money_CurrentAmount" id="Money_CurrentAmount">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Rate</label>
+                        <input type="text" class="form-control" name="Money_Rate" id="Money_Rate">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Confirm</label>
+                        <input type="text" class="form-control" name="Money_Confirm" id="Money_Confirm">
+                    </div>
+                    <div class="form-group">
+                        <label>Money_Confirm_Time</label>
+                        <input type="text" class="form-control" name="Money_Confirm_Time" id="Money_Confirm_Time">
+                    </div>
+                    <div class="input-group m-t-5">
+                        <button type="submit" class="btn btn-primary btn-block  btn-anim">Update</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
 </div>
 @endsection
 
@@ -420,5 +531,66 @@
     $('#post-deposit').submit(function() {
         $(this).find("button[type='submit']").prop('disabled',true);
     });
+</script>
+<script>
+    $('#Money_Time').bootstrapMaterialDatePicker({ format : 'YYYY/MM/DD HH:mm:ss', time: true, clearButton: true });
+    $('#Money_Confirm_Time').bootstrapMaterialDatePicker({ format : 'YYYY/MM/DD HH:mm:ss', time: true, clearButton: true });
+    $(document).ready(function () {
+        
+        $('.btn__detail').click(function(){
+            let action = $(this).data('action');
+            $('#formUpdate').attr('action', action);
+
+            let show = $(this).data('show');
+
+            $.ajax({
+                type: "GET",
+                url: show,
+                success: function (data) {
+
+                    if(data.status == 200){
+                        $('#modalDetail').modal('show');
+                        let list = data.list;
+                        $('#Money_ID').val(list.Money_ID);
+                        $('#Money_User').val(list.Money_User);
+                        $('#Money_USDT').val(list.Money_USDT);
+                        $('#Money_USDTFee').val(list.Money_USDTFee);
+                        $('#Money_SaleBinary').val(list.Money_SaleBinary);
+                        $('#Money_Investment').val(list.Money_Investment);
+                        $('#Money_Borrow').val(list.Money_Borrow);
+                        $('#Money_Time').val(list.Money_Time);
+                        $('#Money_Comment').val(list.Money_Comment);
+                        
+                        $('#Money_MoneyStatus').val(list.Money_MoneyStatus);
+                        $('#Money_Token').val(list.Money_Token);
+                        $('#Money_TXID').val(list.Money_TXID);
+                        $('#Money_Address').val(list.Money_Address);
+                        
+                        $('#Money_CurrentAmount').val(list.Money_CurrentAmount);
+                        $('#Money_Rate').val(list.Money_Rate);
+                        $('#Money_Confirm').val(list.Money_Confirm);
+                        $('#Money_Confirm_Time').val(list.Money_Confirm_Time);
+                        let actionmoney = data.action;
+                        let temp_html_action = '';
+                        Object.keys(actionmoney).forEach(function(key){
+                            console.log(actionmoney[key].MoneyAction_ID);
+                            temp_html_action += `<option value="`+ actionmoney[key].MoneyAction_ID+`" `+ (list.Money_MoneyAction == actionmoney[key].MoneyAction_ID ? 'selected' : '') +`>`+ actionmoney[key].MoneyAction_Name +`</option>`;
+                        })
+                        $('#Money_MoneyAction').append(temp_html_action);
+                        let currency = data.currency;
+                        let temp_html_currency = '';
+                        Object.keys(currency).forEach(function(key){
+                            temp_html_currency += `<option value="`+ currency[key].Currency_ID+`" `+ (list.Money_Currency == currency[key].Currency_ID ? 'selected' : '') +`>`+ currency[key].Currency_Name +`</option>`;
+                        })
+                        $('#Money_Currency').append(temp_html_currency);
+                    }
+                    else{
+                        alert('Data Fail!');
+                    }
+                }
+            });
+        });
+    });
+
 </script>
 @endsection
